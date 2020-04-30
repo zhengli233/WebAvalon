@@ -1,55 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="53277064-7ae9-4993-9d6f-a7c3d5903004" name="Default Changelist" comment="" />
+    <list default="true" id="8d83c55d-3b4d-41d6-aab4-f6f0b25b94a7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/WebAvalon.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/WebAvalon.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1b7H3F4NSnWUcnpyI2Uuzs10c3P" />
+  <component name="ProjectId" id="1bFZYYRomqONfG89Hm3jInZVOk0" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../finishing" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\WebAvalon\frontend\src\pages" />
+    </key>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="53277064-7ae9-4993-9d6f-a7c3d5903004" name="Default Changelist" comment="" />
-      <created>1587976010105</created>
+      <changelist id="8d83c55d-3b4d-41d6-aab4-f6f0b25b94a7" name="Default Changelist" comment="" />
+      <created>1588229849922</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1587976010105</updated>
+      <updated>1588229849922</updated>
+      <workItem from="1588229851190" duration="9480000" />
     </task>
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="418" y="148" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587976162005">
-      <screen x="0" y="28" width="1920" height="1052" />
+    <state x="740" y="277" key="FileChooserDialogImpl" timestamp="1588236701363">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="418" y="148" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.28.1920.1052@0.28.1920.1052" timestamp="1587976162005" />
-    <state x="737" y="287" width="424" height="537" key="FileChooserDialogImpl" timestamp="1587981001571">
-      <screen x="0" y="28" width="1920" height="1052" />
+    <state x="740" y="277" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1588236701363" />
+    <state x="580" y="251" width="759" height="538" key="find.popup" timestamp="1588236992038">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="737" y="287" width="424" height="537" key="FileChooserDialogImpl/0.28.1920.1052@0.28.1920.1052" timestamp="1587981001571" />
-    <state x="449" y="189" width="1022" height="734" key="SettingsEditor" timestamp="1587976462154">
-      <screen x="0" y="28" width="1920" height="1052" />
-    </state>
-    <state x="449" y="189" width="1022" height="734" key="SettingsEditor/0.28.1920.1052@0.28.1920.1052" timestamp="1587976462154" />
-    <state x="200" y="28" width="1509" height="1052" key="new project wizard" timestamp="1587981008581">
-      <screen x="0" y="28" width="1920" height="1052" />
-    </state>
-    <state x="200" y="28" width="1509" height="1052" key="new project wizard/0.28.1920.1052@0.28.1920.1052" timestamp="1587981008581" />
+    <state x="580" y="251" width="759" height="538" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1588236992038" />
   </component>
 </project>
