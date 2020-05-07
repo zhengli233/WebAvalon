@@ -15,8 +15,10 @@
     </div>
 
     <div id="conversationDiv">
-        <label>输入你的名字</label><input type="text" id="name"/>
+        <label>创建房间</label><input type="text" id="name"/>
         <button id="sendName" onclick="sendName();">发送</button>
+        <label>加入房间</label><input type="text" id="room"/>
+        <button id="sendRoom" onclick="sendRoom();">发送</button>
         <p id="response"></p>
         <p id="callback"></p>
     </div>
@@ -38,7 +40,7 @@
         stompClient.connect({}, function (frame) {
             setConnected(true);
             console.log('Connected:' + frame);
-            stompClient.subscribe('/topic/result', function (response) {
+            stompClient.subscribe('/user/topic/roomInfo', function (response) {
                  showResponse(response.body);
             });
         });
@@ -55,7 +57,13 @@
     function sendName() {
         var name = $('#name').val();
         console.log('name:' + name);
-        stompClient.send("/app/MissionEnableVote/welcome", {}, JSON.stringify({'name': name}));
+        stompClient.send("/app/host/create", {}, JSON.stringify({'players': name}));
+    }
+
+    function sendRoom() {
+        var room = $('#room').val();
+        console.log('room:' + room);
+        stompClient.send("/app/host/enter", {}, JSON.stringify({'room': room}));
     }
 
     function showResponse(message) {

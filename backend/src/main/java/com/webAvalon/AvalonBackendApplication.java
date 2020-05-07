@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @SpringBootApplication
 public class AvalonBackendApplication {
     public static void main(String[] args) {
-        System.out.println("app starts!!!!!");
         SpringApplication.run(AvalonBackendApplication.class, args);
     }
 }
