@@ -1,106 +1,69 @@
 <template>
   <div class="page">
-    <van-nav-bar title="Web Avalon"></van-nav-bar>
-    <van-form validate-first ref="form" style="margin-top: 16px;">
-      <van-field v-model="name" name="name" placeholder="请输入你的名字" label="你的名字" :rules="[{ validator: validatorName, message: '支持1-20位中英文和数字' }]"></van-field>
-      <div style="margin: 16px;">
-        <van-button round block type="info" @click="createRoom">创建房间</van-button>
-      </div>
-      <div style="margin: 16px;">
-        <van-button round block type="info" @click="joinRoom">加入房间</van-button>
-      </div>
-    </van-form>
-    <van-action-sheet v-model="showCreateRoom" title="创建房间">
-      <div class="content">
-        <van-form validate-first ref="createForm" style="margin-top: 16px;">
-          <van-field name="players" label="游戏人数">
-            <template #input>
-              <van-stepper v-model="players" min="5" max="10"></van-stepper>
-            </template>
-          </van-field>
-          <div style="margin: 16px;">
-            <van-button round block type="info" @click="doCreateRoom">创建</van-button>
-          </div>
-        </van-form>
-      </div>
-    </van-action-sheet>
-    <van-action-sheet v-model="showJoinRoom" title="加入房间">
-      <div class="content">
-        <van-form validate-first ref="joinForm" style="margin-top: 16px;">
-          <van-field v-model="room" name="room" placeholder="请输入房间号" label="房间号" :rules="[{ validator: validatorRoom, message: '房间号为10位数字' }]"></van-field>
-          <div style="margin: 16px;">
-            <van-button round block type="info" @click="doJoinRoom">加入</van-button>
-          </div>
-        </van-form>
-      </div>
-    </van-action-sheet>
+    <van-nav-bar title="Web Avalon" @click-right="logout">
+      <template #right>
+        <van-icon name="cross" color="#fff" size="18"></van-icon>
+      </template>
+    </van-nav-bar>
+    <div v-if="!onGoing">
+      <van-notice-bar :text="'欢迎，' + name" color="#1989fa" background="#ecf9ff" left-icon="info-o"></van-notice-bar>
+      <van-grid square :column-num="3">
+        <van-grid-item
+          v-for="(item, index) in roomList"
+          :key="index"
+          :icon="item.onGoing ? 'fire-o' : 'underway-o'"
+          :text="index + 1 + '号桌 ' + (item.onGoing ? item.playerNames.length + '/' + item.playerNames.length : item.playerNames.length + '/10')"
+          @click="joinGame(item.room, item.playerNames)">
+        </van-grid-item>
+      </van-grid>
+    </div>
+    <div v-else>
+      已经加入
+    </div>
   </div>
 </template>
 
 <script>
-import { Toast } from 'vant'
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
+import { Dialog } from 'vant'
 
 export default {
   name: 'index',
   data () {
     return {
-      name: '',
-      players: 5,
-      room: '',
-      showCreateRoom: false,
-      showJoinRoom: false
+      name: this.$store.getters.getAccount,
+      onGoing: false,
+      roomList: [
+        {room: '0', onGoing: true, playerNames: ['a', 'b', 'c', 'd']},
+        {room: '1', onGoing: true, playerNames: ['aa', 'bb', 'cc', 'dd', 'ee']},
+        {room: '2', onGoing: false, playerNames: ['aaa', 'bbb']},
+        {room: '3', onGoing: false, playerNames: ['ccc']},
+        {room: '4', onGoing: false, playerNames: []},
+        {room: '5', onGoing: false, playerNames: []},
+        {room: '6', onGoing: false, playerNames: []},
+        {room: '7', onGoing: false, playerNames: []},
+        {room: '8', onGoing: false, playerNames: []},
+        {room: '9', onGoing: false, playerNames: []}
+      ]
     }
   },
   methods: {
-    // 玩家名字校验
-    validatorName (val) {
-      return new RegExp('^[\u4e00-\u9fa5_a-zA-Z0-9]{1,20}$').test(val)
+    logout () {
+      this.$store.dispatch('asynClean')
+      this.$router.push({ path: '/login' })
     },
-    // 房间号校验
-    validatorRoom (val) {
-      return new RegExp('^[0-9]{10}$').test(val)
-    },
-    // 显示创建房间
-    createRoom () {
-      this.$refs['form'].validate().then(() => {
-        this.showCreateRoom = true
-      }).catch(() => {
-      })
-    },
-    // 显示加入房间
-    joinRoom () {
-      this.$refs['form'].validate().then(() => {
-        this.showJoinRoom = true
-      }).catch(() => {
-      })
-    },
-    // 创建房间
-    doCreateRoom () {
-      this.$refs['createForm'].validate().then(() => {
-        this.$store.state.wsRoom.send('/app/host/create', {}, JSON.stringify({'players': this.players}))
-        this.subscribe()
-        Toast.loading({
-          message: '请稍后',
-          duration: 0,
-          forbidClick: true
+    joinGame (room, players) {
+      if (players.indexOf(this.name) === -1) {
+        this.$store.state.wsRoom.send('/app/host/enterRoom', {}, JSON.stringify({'room': room, 'players': [this.name]}))
+      } else {
+        Dialog.confirm({
+          message: '该房间中已有与您的名字相同玩家，请重新创建名字或加入其它房间'
+        }).then(() => {
+          this.$router.push({ path: '/login' })
+        }).catch(() => {
         })
-      }).catch(() => {
-      })
-    },
-    // 加入房间
-    doJoinRoom () {
-      this.$refs['joinForm'].validate().then(() => {
-        this.$store.state.wsRoom.send('/app/host/enter', {}, JSON.stringify({'room': this.room}))
-        this.subscribe()
-        Toast.loading({
-          message: '请稍后',
-          duration: 0,
-          forbidClick: true
-        })
-      }).catch(() => {
-      })
+      }
     },
     // 连接
     connection () {
@@ -116,6 +79,7 @@ export default {
             window.clearInterval(this.$store.state.wsRoomTime)
             this.connectLock = false // 还原锁
           }
+          this.subscribe()
         },
         err => {
           // 连接发生错误时的处理函数
@@ -128,9 +92,9 @@ export default {
     },
     // 订阅
     subscribe () {
-      this.$store.state.wsRoom.subscribe('/topic/roomInfo', msg => {
-        // let message = JSON.parse(msg.body)
-        Toast.clear()
+      this.$store.state.wsRoom.subscribe('/app/host/getAllRoomsInfo', msg => {
+        let message = JSON.parse(msg.body)
+        this.roomList = message
       })
     },
     // 断开连接
