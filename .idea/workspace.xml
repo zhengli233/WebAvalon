@@ -1,55 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="53277064-7ae9-4993-9d6f-a7c3d5903004" name="Default Changelist" comment="" />
+    <list default="true" id="8d83c55d-3b4d-41d6-aab4-f6f0b25b94a7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/config/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/config/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/inGame.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1b7H3F4NSnWUcnpyI2Uuzs10c3P" />
+  <component name="ProjectId" id="1bFZYYRomqONfG89Hm3jInZVOk0" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../finishing" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\WebAvalon\frontend\src\pages" />
+    </key>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="53277064-7ae9-4993-9d6f-a7c3d5903004" name="Default Changelist" comment="" />
-      <created>1587976010105</created>
+      <changelist id="8d83c55d-3b4d-41d6-aab4-f6f0b25b94a7" name="Default Changelist" comment="" />
+      <created>1588229849922</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1587976010105</updated>
+      <updated>1588229849922</updated>
+      <workItem from="1588229851190" duration="9996000" />
+      <workItem from="1588727748928" duration="24000" />
+      <workItem from="1588753546157" duration="186000" />
+      <workItem from="1589006226979" duration="3052000" />
+      <workItem from="1589010034873" duration="3423000" />
     </task>
+    <task id="LOCAL-00001" summary="建立前端项目">
+      <created>1588239427072</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1588239427072</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="建立前端项目" />
+    <option name="LAST_COMMIT_MESSAGE" value="建立前端项目" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="418" y="148" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587976162005">
-      <screen x="0" y="28" width="1920" height="1052" />
+    <state x="572" y="117" key="CommitChangelistDialog2" timestamp="1588239418912">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="418" y="148" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.28.1920.1052@0.28.1920.1052" timestamp="1587976162005" />
-    <state x="737" y="287" width="424" height="537" key="FileChooserDialogImpl" timestamp="1587981001571">
-      <screen x="0" y="28" width="1920" height="1052" />
+    <state x="572" y="117" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1588239418912" />
+    <state x="740" y="277" key="FileChooserDialogImpl" timestamp="1589009063024">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="737" y="287" width="424" height="537" key="FileChooserDialogImpl/0.28.1920.1052@0.28.1920.1052" timestamp="1587981001571" />
-    <state x="449" y="189" width="1022" height="734" key="SettingsEditor" timestamp="1587976462154">
-      <screen x="0" y="28" width="1920" height="1052" />
+    <state x="740" y="277" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1589009063024" />
+    <state x="552" y="255" key="Vcs.Push.Dialog.v2" timestamp="1588239438952">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="449" y="189" width="1022" height="734" key="SettingsEditor/0.28.1920.1052@0.28.1920.1052" timestamp="1587976462154" />
-    <state x="200" y="28" width="1509" height="1052" key="new project wizard" timestamp="1587981008581">
-      <screen x="0" y="28" width="1920" height="1052" />
+    <state x="552" y="255" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1588239438952" />
+    <state x="580" y="251" width="759" height="538" key="find.popup" timestamp="1589011038389">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="200" y="28" width="1509" height="1052" key="new project wizard/0.28.1920.1052@0.28.1920.1052" timestamp="1587981008581" />
+    <state x="580" y="251" width="759" height="538" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589011038389" />
+    <state x="660" y="321" key="git4idea.merge.GitPullDialog" timestamp="1588239433408">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="660" y="321" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588239433408" />
   </component>
 </project>
