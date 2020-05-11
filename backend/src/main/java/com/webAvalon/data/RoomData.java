@@ -4,70 +4,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomData {
-    private int roomSize;
-    private final String room;
-    private boolean empty;
-    private List<PlayerData> players;
+    private String room;
+    private boolean onGoing;
+    private List<String> playerNames;
 
-    public RoomData(String room) {
-        this.roomSize = 0;
-        this.room = room;
-        this.empty = true;
-        this.players = new ArrayList<PlayerData>();
+    public RoomData() {
+        this.room = "";
+        this.onGoing = false;
+        this.playerNames = new ArrayList<>();
     }
 
-    public int getRoomSize() {
-        return roomSize;
+    public RoomData(String room) {
+        this.room = room;
+        this.onGoing = false;
+        this.playerNames = new ArrayList<>();
     }
 
     public String getRoom() {
         return room;
     }
 
-    public boolean isEmpty() {
-        return empty;
+    public boolean isOnGoing() {
+        return onGoing;
     }
 
-    public boolean getEmpty() {
-        return empty;
+    public boolean getOnGoing() {
+        return onGoing;
     }
 
-    public List<PlayerData> getPlayers() {
-        return players;
+    public List<String> getPlayerNames() {
+        return playerNames;
     }
 
-    public void setRoomSize(int roomSize) {
-        this.roomSize = roomSize;
+    public void setRoom(String room) {
+        this.room = room;
     }
 
-    public void setEmpty(boolean empty) {
-        this.empty = empty;
+    public void setOnGoing(boolean onGoing) {
+        this.onGoing = onGoing;
     }
 
-    public void setPlayers(List<PlayerData> players) {
-        this.players = players;
+    public void setPlayerNames(List<String> playerNames) {
+        this.playerNames = playerNames;
     }
 
-    public void addPlayer(PlayerData player) {
-        this.players.add(player);
-    }
-
-    public boolean allReady() {
-        if (players.size() < roomSize) {
-            return false;
-        }
-        for (int i = 0; i < players.size(); i++) {
-            PlayerData player = players.get(i);
-            if(!player.isReady()) {
-                return false;
-            }
-        }
-        return true;
+    public void addPlayer(String playerName) {
+        this.playerNames.add(playerName);
     }
 
     public void clear() {
-        this.roomSize = 0;
-        this.empty = true;
-        this.players.clear();
+        this.onGoing = false;
+        this.playerNames.clear();
+    }
+
+    public boolean containsPlayerName(String playerName) {
+        for (String playerNameExist :
+                playerNames) {
+            if (playerNameExist.equals(playerName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

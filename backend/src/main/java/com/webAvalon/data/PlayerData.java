@@ -3,15 +3,10 @@ package com.webAvalon.data;
 import java.util.List;
 
 public class PlayerData {
-    private int index;
     private String name;
     private String role;
     private boolean ready;
-    private List<PlayerData> info;
-
-    public int getIndex() {
-        return index;
-    }
+    private List<RoleData> info;
 
     public String getName() {
         return name;
@@ -29,12 +24,8 @@ public class PlayerData {
         return ready;
     }
 
-    public List<PlayerData> getInfo() {
+    public List<RoleData> getInfo() {
         return info;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public void setName(String name) {
@@ -45,7 +36,7 @@ public class PlayerData {
         this.role = role;
     }
 
-    public void setInfo(List<PlayerData> info) {
+    public void setInfo(List<RoleData> info) {
         this.info = info;
     }
 
@@ -53,7 +44,7 @@ public class PlayerData {
         this.ready = ready;
     }
 
-    public void addInfo(PlayerData data) {
+    public void addInfo(RoleData data) {
         this.info.add(data);
     }
 }
