@@ -1,4 +1,4 @@
-package com.webAvalon.main;
+package com.webAvalon.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -18,7 +18,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/web_avalon").setAllowedOrigins("*").addInterceptors().withSockJS();
+        registry.addEndpoint("/web_avalon").setAllowedOrigins("*").addInterceptors().withSockJS()
+        .setClientLibraryUrl("https://cdn.jsdelivr.net/npm/sockjs-client@1.3.0/dist/sockjs.min.js");
     }
 
 }

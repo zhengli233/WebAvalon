@@ -2,12 +2,17 @@ package com.webAvalon.game;
 
 import com.webAvalon.data.RoomData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Room {
     private RoomData roomData;
     private List<Player> players;
     private MissionManager dealer;
+
+    public Room() {
+        this.players = new ArrayList<>();
+    }
 
     public RoomData getRoomData() {
         return roomData;

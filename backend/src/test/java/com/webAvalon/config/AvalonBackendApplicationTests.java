@@ -1,4 +1,4 @@
-package com.webAvalon.main;
+package com.webAvalon.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

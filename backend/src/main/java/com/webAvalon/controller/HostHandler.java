@@ -28,6 +28,7 @@ public class HostHandler {
         String room = roomData.getRoom();
         String playerName = roomData.getPlayerNames().get(0);
         roomData = manager.enterRoom(room, playerName);
+        broadcastAllRoomsInfo();
         return JSON.toJSONString(roomData);
     }
 
