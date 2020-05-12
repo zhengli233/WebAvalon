@@ -2,7 +2,7 @@
   max-width: 768px;
   height: 100vh;
   margin: auto;
-  background: #f5f5f5;
+  background: #fcfcfc;
 }
 .van-popup--bottom {
   max-width: 768px;
@@ -14,4 +14,20 @@
 }
 .van-nav-bar__title {
   color: #fff;
+}
+.personInfo {
+  margin-top: 5px;
+}
+.personInfo .van-grid-item__content {
+  padding: 0;
+  height: 56px;
+  font-size: 14px;
+}
+.personInfo .van-grid-item__content .van-tag {
+  position: absolute;
+  top: 5px;
+  left: 0;
+}
+.personInfo .self .van-grid-item__content {
+  background: rgb(236, 249, 255);
 }
