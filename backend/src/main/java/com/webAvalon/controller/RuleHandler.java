@@ -10,11 +10,16 @@ import org.springframework.stereotype.Controller;
 @Controller
 @MessageMapping("/rule")
 public class RuleHandler {
-    @MessageMapping("getRule")
+    @MessageMapping("/getRule")
     @SendTo("/topic/rule")
     public String getRule(String msg) {
         RuleData rule = JSON.parseObject(msg, RuleData.class);
         RuleData result = RuleManager.getRule(rule.getPlayerNumber());
         return JSON.toJSONString(result);
+    }
+
+    @MessageMapping("/setRoles")
+    public void setRoles() {
+
     }
 }
