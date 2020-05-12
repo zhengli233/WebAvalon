@@ -66,4 +66,14 @@ public class RoomData {
         }
         return false;
     }
+
+    public void removePlayerName(String playerName) {
+        for (String containedPlayerName:
+             playerNames) {
+            if(containedPlayerName.equals(playerName)) {
+                playerNames.remove(containedPlayerName);
+                return;
+            }
+        }
+    }
 }

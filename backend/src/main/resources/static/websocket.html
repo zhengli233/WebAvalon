@@ -35,7 +35,7 @@
     }
 
     function connect() {
-        var socket = new SockJS('https://api.houtiao.club/avalon/web_avalon');
+        var socket = new SockJS('http://127.0.0.1:8080/web_avalon');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             setConnected(true);
@@ -44,6 +44,9 @@
                 showResponse(response.body);
             });
             stompClient.subscribe('/topic/allRoomsInfo', function (response) {
+                showResponse(response.body);
+            });
+            stompClient.subscribe('/topic/roomInfo/0', function (response) {
                 showResponse(response.body);
             });
 
@@ -61,8 +64,8 @@
     function sendName() {
         var name = $('#name').val();
         console.log('name:' + name);
-        stompClient.send("/app/host/enterRoom", {}, JSON.stringify({'room': '0', 'playerNames':[name]}));
-        stompClient.send("/app/host/getAllRooms", {}, '');
+        //stompClient.send("/app/host/enterRoom", {}, JSON.stringify({'room': '0', 'playerNames':[name]}));
+        stompClient.send("/app/host/getRoomInfo/0", {}, '');
     }
 
     function sendRoom() {

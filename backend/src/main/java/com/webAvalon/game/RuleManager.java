@@ -117,7 +117,7 @@ public class RuleManager {
         return rule;
     }
 
-    public static void setRoles(List<PlayerData> players) {
+    public static void setRoles(List<Player> players) {
         RuleData rule = getRule(players.size());
         List<String> roles = rule.getRoles();
         Collections.shuffle(roles);
@@ -126,43 +126,45 @@ public class RuleManager {
         List<RoleData> evil = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
             String role = roles.get(i);
-            players.get(i).setRole(role);
+            PlayerData playerData = players.get(i).getPlayerData();
+            playerData.setRole(role);
             switch (role) {
                 case "梅林":
-                    percival.add(new RoleData("梅林或莫甘娜", players.get(i).getName()));
+                    percival.add(new RoleData("梅林或莫甘娜", playerData.getName()));
                     break;
                 case "莫甘娜":
-                    percival.add(new RoleData("梅林或莫甘娜", players.get(i).getName()));
-                    merlin.add(new RoleData("坏人", players.get(i).getName()));
-                    evil.add(new RoleData("坏人队友", players.get(i).getName()));
+                    percival.add(new RoleData("梅林或莫甘娜", playerData.getName()));
+                    merlin.add(new RoleData("坏人", playerData.getName()));
+                    evil.add(new RoleData("坏人队友", playerData.getName()));
                     break;
                 case "刺客":
                 case "爪牙":
-                    merlin.add(new RoleData("坏人", players.get(i).getName()));
-                    evil.add(new RoleData("坏人队友", players.get(i).getName()));
+                    merlin.add(new RoleData("坏人", playerData.getName()));
+                    evil.add(new RoleData("坏人队友", playerData.getName()));
                     break;
                 case "奥伯伦":
-                    merlin.add(new RoleData("坏人", players.get(i).getName()));
+                    merlin.add(new RoleData("坏人", playerData.getName()));
                     break;
                 case "莫德雷德":
-                    evil.add(new RoleData("坏人队友", players.get(i).getName()));
+                    evil.add(new RoleData("坏人队友", playerData.getName()));
                     break;
             }
         }
-        for (PlayerData player:
+        for (Player player:
              players) {
-            switch(player.getRole()) {
+            PlayerData playerData = player.getPlayerData();
+            switch(playerData.getRole()) {
                 case "梅林":
-                    player.setInfo(merlin);
+                    playerData.setInfo(merlin);
                     break;
                 case "派西维尔":
-                    player.setInfo(percival);
+                    playerData.setInfo(percival);
                     break;
                 case "刺客":
                 case "爪牙":
                 case "莫甘娜":
                 case "莫德雷德":
-                    player.setInfo(evil);
+                    playerData.setInfo(evil);
                     break;
             }
         }

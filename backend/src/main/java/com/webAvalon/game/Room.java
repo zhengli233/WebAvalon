@@ -62,4 +62,15 @@ public class Room {
         }
         return null;
     }
+
+    public void removePlayer(String playerName) {
+        for (Player player :
+                players) {
+            if (player.getPlayerData().getName().equals(playerName)) {
+                players.remove(player);
+                roomData.removePlayerName(playerName);
+                return;
+            }
+        }
+    }
 }

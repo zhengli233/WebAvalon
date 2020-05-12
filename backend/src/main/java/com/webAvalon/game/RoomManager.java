@@ -13,6 +13,7 @@ public class RoomManager {
     private List<MissionManager> dealers;
     private List<Room> rooms;
 
+    // 构造时创建roomNumbers个Room对象，Room自带一个dealer，和RoomData，同时管理所有Player
     private RoomManager() {
         dealers = new ArrayList<>();
         rooms = new ArrayList<>();
@@ -58,6 +59,16 @@ public class RoomManager {
             }
         }
         return null;
+    }
+
+    public void leaveRoom(String roomName, String playerName) {
+        for (int i = 0; i < rooms.size(); i++) {
+            RoomData roomData = rooms.get(i).getRoomData();
+            if (roomData.getRoom().equals(roomName)) {
+                rooms.get(i).removePlayer(playerName);
+                return;
+            }
+        }
     }
 
     public MissionManager getDealer(String room) {
