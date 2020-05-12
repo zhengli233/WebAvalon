@@ -55,7 +55,7 @@ export default {
     },
     joinGame (room, players) {
       if (players.indexOf(this.name) === -1) {
-        this.$store.state.wsRoom.send('/app/host/enterRoom', {}, JSON.stringify({'room': room, 'players': [this.name]}))
+        this.$store.state.wsRoom.send('/app/host/enterRoom', {}, JSON.stringify({'room': room, 'playerNames': [this.name]}))
       } else {
         Dialog.confirm({
           message: '该房间中已有与您的名字相同玩家，请重新创建名字或加入其它房间'
@@ -68,7 +68,7 @@ export default {
     // 连接
     connection () {
       this.disconnect()
-      let socket = new SockJS('http://www.houtiao.club')
+      let socket = new SockJS('https://api.houtiao.club/avalon/web_avalon')
       this.$store.state.wsRoom = Stomp.over(socket)
       let headers = {}
       this.$store.state.wsRoom.connect(
@@ -92,7 +92,7 @@ export default {
     },
     // 订阅
     subscribe () {
-      this.$store.state.wsRoom.subscribe('/app/host/getAllRoomsInfo', msg => {
+      this.$store.state.wsRoom.subscribe('/topic/allRoomsInfo', msg => {
         let message = JSON.parse(msg.body)
         this.roomList = message
       })
