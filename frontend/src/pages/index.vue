@@ -168,10 +168,11 @@ export default {
         this.subSingleRoom = msg.headers.subscription
         let message = JSON.parse(msg.body)
         this.playList = message.playerNames
+        this.$store.state.wsRoom.send('/app/rule/getRule/' + this.$store.getters.getRoom, {}, JSON.stringify({}))
       })
-      this.$store.state.wsRoom.subscribe('/app/rule/getRule/' + this.$store.getters.getRoom, msg => {
+      this.$store.state.wsRoom.subscribe('/topic/rule/' + this.$store.getters.getRoom, msg => {
         this.subRule = msg.headers.subscription
-        let message = JSON.parse(msg.body)
+        // let message = JSON.parse(msg.body)
       })
     },
     // 断开连接
