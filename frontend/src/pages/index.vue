@@ -18,7 +18,7 @@
       </van-grid>
     </div>
     <div v-else-if="$store.getters.getStatus === '1'">
-      <van-nav-bar title="Web Avalon">
+      <van-nav-bar :title="(parseInt($store.getters.getRoom) + 1) + '号桌'">
         <template #right>
         </template>
       </van-nav-bar>
@@ -49,6 +49,8 @@ export default {
   data () {
     return {
       name: this.$store.getters.getAccount,
+      subSingleRoom: '',
+      subRule: '',
       roomList: [
         // {room: '0', onGoing: false, playerNames: []},
         // {room: '1', onGoing: false, playerNames: []},
@@ -70,9 +72,12 @@ export default {
     logout () {
       this.$store.dispatch('asynClean')
       this.$router.push({ path: '/login' })
+      // this.$store.state.wsRoom.send('/app/host/clearAllRooms', {}, JSON.stringify({}))
     },
     joinGame (room, players) {
       if (players.indexOf(this.name) === -1) {
+        this.$store.dispatch('asynSetRoom', room)
+        this.subscribeSingleRoom()
         this.$store.state.wsRoom.send('/app/host/enterRoom', {}, JSON.stringify({'room': room, 'playerNames': [this.name]}))
       } else {
         Dialog.confirm({
@@ -84,18 +89,24 @@ export default {
         })
       }
     },
-    start () {},
+    start () {
+    },
     leave () {
       this.$store.dispatch('asynSetStatus', '0')
-      // this.$store.state.wsRoom.send('/app/host/clearAllRooms', {}, JSON.stringify({}))
+      this.$store.state.wsRoom.send('/app/host/leaveRoom/' + this.$store.getters.getRoom, {}, JSON.stringify({'name': this.name}))
+      this.$store.dispatch('asynSetRoom', '')
+      this.$store.state.wsRoom.unsubscribe(this.subSingleRoom)
+      this.subSingleRoom = ''
+      this.$store.state.wsRoom.unsubscribe(this.subRule)
+      this.subRule = ''
     },
     // 连接
     connection () {
-      // Toast.loading({
-      //   message: '加载中',
-      //   forbidClick: true,
-      //   duration: 0
-      // })
+      Toast.loading({
+        message: '加载中',
+        forbidClick: true,
+        duration: 0
+      })
       this.disconnect()
       let socket = new SockJS('https://api.houtiao.club/avalon/web_avalon')
       this.$store.state.wsRoom = Stomp.over(socket)
@@ -108,9 +119,12 @@ export default {
             window.clearInterval(this.$store.state.wsRoomTime)
             this.connectLock = false // 还原锁
           }
-          // Toast.clear()
+          Toast.clear()
           this.subscribe()
-          this.subscribeSingleRoom()
+          this.subscribeEnterStatus()
+          if (this.$store.getters.getRoom !== '') {
+            this.subscribeSingleRoom()
+          }
         },
         err => {
           // 连接发生错误时的处理函数
@@ -132,18 +146,32 @@ export default {
       })
       this.$store.state.wsRoom.send('/app/host/getAllRooms', {}, JSON.stringify({}))
     },
-    subscribeSingleRoom () {
-      this.$store.state.wsRoom.subscribe('/user/topic/roomInfo', msg => {
+    subscribeEnterStatus () {
+      this.$store.state.wsRoom.subscribe('/user/topic/enterRoomStatus', msg => {
         let message = JSON.parse(msg.body)
-        if (message !== null) {
-          this.playList = message.playerNames
+        if (message) {
           this.$store.dispatch('asynSetStatus', '1')
-          this.$store.dispatch('asynSetRoom', message.room)
         } else {
+          this.$store.dispatch('asynSetRoom', '')
+          this.$store.state.wsRoom.unsubscribe(this.subSingleRoom)
+          this.subSingleRoom = ''
+          this.$store.state.wsRoom.unsubscribe(this.subRule)
+          this.subRule = ''
           Toast.fail({
             message: '加入失败'
           })
         }
+      })
+    },
+    subscribeSingleRoom () {
+      this.$store.state.wsRoom.subscribe('/topic/roomInfo/' + this.$store.getters.getRoom, msg => {
+        this.subSingleRoom = msg.headers.subscription
+        let message = JSON.parse(msg.body)
+        this.playList = message.playerNames
+      })
+      this.$store.state.wsRoom.subscribe('/app/rule/getRule/' + this.$store.getters.getRoom, msg => {
+        this.subRule = msg.headers.subscription
+        let message = JSON.parse(msg.body)
       })
     },
     // 断开连接
