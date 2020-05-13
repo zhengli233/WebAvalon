@@ -23,15 +23,21 @@ public class HostHandler {
 
 
     @MessageMapping("/enterRoom")
-    @SendToUser("/topic/roomInfo")
+    @SendToUser("/topic/enterRoomStatus")
     public String enterRoom(String msg) {
         System.out.println(msg);
         RoomData roomData = JSON.parseObject(msg, RoomData.class);
         String room = roomData.getRoom();
         String playerName = roomData.getPlayerNames().get(0);
-        roomData = manager.enterRoom(room, playerName);
-        broadcastAllRoomsInfo();
-        return JSON.toJSONString(roomData);
+        if (manager.enterRoom(room, playerName) == null) {
+            broadcastAllRoomsInfo();
+            broadcastRoomInfo(room);
+            return JSON.toJSONString(false);
+        } else {
+            broadcastAllRoomsInfo();
+            broadcastRoomInfo(room);
+            return JSON.toJSONString(true);
+        }
     }
 
     @MessageMapping("/getAllRooms")
