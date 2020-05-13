@@ -36,6 +36,7 @@ public class HostHandler {
         } else {
             broadcastAllRoomsInfo();
             broadcastRoomInfo(room);
+            sender.convertAndSend("/app/rule/getRule/" + room, "");
             return JSON.toJSONString(true);
         }
     }
