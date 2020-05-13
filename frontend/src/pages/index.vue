@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <!--------------------所有房间界面-------------------->
     <div v-if="$store.getters.getStatus === '0'">
       <van-nav-bar title="Web Avalon" @click-right="logout">
         <template #right>
@@ -17,6 +18,8 @@
         </van-grid-item>
       </van-grid>
     </div>
+    <!--------------------所有房间界面-------------------->
+    <!--------------------当前房间，未开始游戏界面-------------------->
     <div v-else-if="$store.getters.getStatus === '1'">
       <van-nav-bar :title="(parseInt($store.getters.getRoom) + 1) + '号桌'">
         <template #right>
@@ -36,6 +39,7 @@
         <van-button round block type="info" @click="leave()" plain>离开</van-button>
       </div>
     </div>
+    <!--------------------当前房间，未开始游戏界面-------------------->
   </div>
 </template>
 
@@ -48,32 +52,21 @@ export default {
   name: 'index',
   data () {
     return {
-      name: this.$store.getters.getAccount,
-      subSingleRoom: '',
-      subRule: '',
-      roomList: [
-        // {room: '0', onGoing: false, playerNames: []},
-        // {room: '1', onGoing: false, playerNames: []},
-        // {room: '2', onGoing: false, playerNames: []},
-        // {room: '3', onGoing: false, playerNames: []},
-        // {room: '4', onGoing: false, playerNames: []},
-        // {room: '5', onGoing: false, playerNames: []},
-        // {room: '6', onGoing: false, playerNames: []},
-        // {room: '7', onGoing: false, playerNames: []},
-        // {room: '8', onGoing: false, playerNames: []},
-        // {room: '9', onGoing: false, playerNames: []}
-      ],
-      playList: [
-        // 'q', '1234567890', '一二三四五六七八九十', 'Tornorroyv', 'zhengli233'
-      ]
+      name: this.$store.getters.getAccount, // 用户名
+      subSingleRoom: '', // 当前房间信息的订阅id，用于退订时识别
+      subRule: '', // 当前房间规则的订阅id，用于退订时识别
+      roomList: [], // 房间列表
+      playList: [] // 当前房间内玩家列表
     }
   },
   methods: {
+    // 用户登出
     logout () {
       this.$store.dispatch('asynClean')
       this.$router.push({ path: '/login' })
-      // this.$store.state.wsRoom.send('/app/host/clearAllRooms', {}, JSON.stringify({}))
+      // this.$store.state.wsRoom.send('/app/host/clearAllRooms', {}, JSON.stringify({})) // 清空所有房间玩家信息
     },
+    // 加入房间
     joinGame (room, players) {
       if (players.indexOf(this.name) === -1) {
         this.$store.dispatch('asynSetRoom', room)
@@ -89,8 +82,10 @@ export default {
         })
       }
     },
+    // 开始游戏
     start () {
     },
+    // 离开房间
     leave () {
       this.$store.dispatch('asynSetStatus', '0')
       this.$store.state.wsRoom.send('/app/host/leaveRoom/' + this.$store.getters.getRoom, {}, JSON.stringify({'name': this.name}))
@@ -142,6 +137,7 @@ export default {
         this.roomList = message
         if (this.$store.getters.getRoom !== '' && this.playList.length === 0) {
           this.playList = message.find(item => item.room === this.$store.getters.getRoom).playerNames
+          this.$store.state.wsRoom.send('/app/rule/getRule/' + this.$store.getters.getRoom, {}, JSON.stringify({}))
         }
       })
       this.$store.state.wsRoom.send('/app/host/getAllRooms', {}, JSON.stringify({}))
@@ -168,7 +164,7 @@ export default {
         this.subSingleRoom = msg.headers.subscription
         let message = JSON.parse(msg.body)
         this.playList = message.playerNames
-        this.$store.state.wsRoom.send('/app/rule/getRule/' + this.$store.getters.getRoom, {}, JSON.stringify({}))
+        // this.$store.state.wsRoom.send('/app/rule/getRule/' + this.$store.getters.getRoom, {}, JSON.stringify({}))
       })
       this.$store.state.wsRoom.subscribe('/topic/rule/' + this.$store.getters.getRoom, msg => {
         this.subRule = msg.headers.subscription
@@ -194,6 +190,11 @@ export default {
   },
   mounted () {
     this.connection()
+    // 禁用浏览器的返回
+    history.pushState(null, null, document.URL)
+    window.addEventListener('popstate', function () {
+      history.pushState(null, null, document.URL)
+    })
   },
   beforeDestroy: function () {
     this.disconnect()
