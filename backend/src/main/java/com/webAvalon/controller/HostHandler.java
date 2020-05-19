@@ -3,7 +3,9 @@ package com.webAvalon.controller;
 import com.alibaba.fastjson.JSON;
 import com.webAvalon.data.PlayerData;
 import com.webAvalon.data.RoomData;
+import com.webAvalon.data.RuleData;
 import com.webAvalon.game.RoomManager;
+import com.webAvalon.game.RuleManager;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -36,7 +38,8 @@ public class HostHandler {
         } else {
             broadcastAllRoomsInfo();
             broadcastRoomInfo(room);
-            sender.convertAndSend("/app/rule/getRule/" + room, "");
+            RuleData ruleData = RuleManager.getRule(manager.getRoom(room).getPlayers().size());
+            sender.convertAndSend("/topic/rule/" + room, JSON.toJSONString(ruleData));
             return JSON.toJSONString(true);
         }
     }
@@ -58,6 +61,11 @@ public class HostHandler {
         manager.leaveRoom(room, playerName);
         broadcastRoomInfo(room);
         broadcastAllRoomsInfo();
+    }
+
+    @MessageMapping("/startGame/{room}")
+    public void startGame(@DestinationVariable String room) {
+
     }
 
     @MessageMapping("/clearAllRooms")

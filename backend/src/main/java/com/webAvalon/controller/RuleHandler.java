@@ -2,6 +2,7 @@ package com.webAvalon.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.webAvalon.data.RuleData;
+import com.webAvalon.game.Player;
 import com.webAvalon.game.Room;
 import com.webAvalon.game.RoomManager;
 import com.webAvalon.game.RuleManager;
@@ -9,6 +10,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
@@ -31,5 +33,13 @@ public class RuleHandler {
         Room roomInstance = RoomManager.getInstance().getRoom(room);
         RuleManager.setRoles(roomInstance.getPlayers());
         sender.convertAndSend("/topic/setRoles/" + room, true);
+    }
+
+    @MessageMapping("/getPlayerInfo/{room}/{playerName}")
+    @SendToUser("/topic/playerInfo")
+    public String getPlayerInfo(@DestinationVariable String room, @DestinationVariable String playerName) {
+        Room roomInstance = RoomManager.getInstance().getRoom(room);
+        Player player = roomInstance.getPlayer(playerName);
+        return JSON.toJSONString(player.getPlayerData());
     }
 }

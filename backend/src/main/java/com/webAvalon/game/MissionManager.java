@@ -13,26 +13,36 @@ public class MissionManager {
     private RoomData roomData;
     private Map<String, Boolean> missionEnableVotes;
     private Map<String, Boolean> missionSuccessVotes;
+    private boolean isVoting;
 
     public MissionManager(RoomData roomData) {
         this.roomData = roomData;
         this.missionEnableVotes = new HashMap<>();
+        this.missionSuccessVotes = new HashMap<>();
+        this.isVoting = false;
     }
 
-    public void setMissionEnableVote(List<String> playerNameList) {
+    public boolean setCandidates(List<String> playerNameList) {
         for (String playerName :
                 playerNameList) {
             if (!roomData.containsPlayerName(playerName)) {
-                return;
+                return false;
             }
         }
         this.missionCandidates = playerNameList;
         missionEnableVotes.clear();
+        missionSuccessVotes.clear();
+        isVoting = true;
+        return true;
     }
 
     public boolean missionEnableVote(String playerName, boolean vote) {
+        if (!isVoting) {
+            return false;
+        }
         missionEnableVotes.put(playerName, vote);
         if (missionEnableVotes.size() == roomData.getPlayerNames().size()) {
+            isVoting = false;
             return true;
         } else {
             return false;
@@ -43,14 +53,24 @@ public class MissionManager {
         return missionEnableVotes;
     }
 
-    public void setMissionSuccessVote(List<String> playerNameList) {
-        this.missionCandidates = playerNameList;
-        missionSuccessVotes.clear();
-    }
-
     public boolean missionSuccessVote(String playerName, boolean vote) {
+        if(!isVoting) {
+            return false;
+        }
+        boolean contains = false;
+        for (String candidateName :
+                missionCandidates) {
+            if (candidateName.equals(playerName)) {
+                contains = true;
+                break;
+            }
+        }
+        if (!contains) {
+            return false;
+        }
         missionSuccessVotes.put(playerName, vote);
         if (missionSuccessVotes.size() == missionCandidates.size()) {
+            isVoting = false;
             return true;
         } else {
             return false;
@@ -69,9 +89,14 @@ public class MissionManager {
         return roomData;
     }
 
+    public List<String> getMissionCandidates() {
+        return missionCandidates;
+    }
+
     public void clear() {
         missionCandidates.clear();
         missionEnableVotes.clear();
         missionSuccessVotes.clear();
+        isVoting = false;
     }
 }

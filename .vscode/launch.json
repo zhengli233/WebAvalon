@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - AvalonBackendApplication",
+            "request": "launch",
+            "mainClass": "com.webAvalon.AvalonBackendApplication",
+            "projectName": "avalon_backend"
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "com.web_avalon.avalon_backend.DemoApplication"

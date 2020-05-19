@@ -73,7 +73,7 @@ public class RoomManager {
 
     public MissionManager getDealer(String room) {
         for (MissionManager dealer : dealers) {
-            if (dealer.getRoomData().equals(room)) {
+            if (dealer.getRoomData().getRoom().equals(room)) {
                 return dealer;
             }
         }

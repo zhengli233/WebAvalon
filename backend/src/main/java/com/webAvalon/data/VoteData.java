@@ -2,14 +2,15 @@ package com.webAvalon.data;
 
 import java.util.List;
 
-public class MissionEnableVoteData {
-    List<String> playerNameList;
+public class VoteData {
+    List<String> candidateList;
     private int gameRound;
     private boolean vote;
     private String room;
+    private String playerName;
 
-    public List<String> getPlayerNameList() {
-        return playerNameList;
+    public List<String> getCandidateList() {
+        return candidateList;
     }
 
     public boolean getVote() {
@@ -24,12 +25,16 @@ public class MissionEnableVoteData {
         return room;
     }
 
-    public void setPlayerNameList(List<String> playerNameList) {
-        this.playerNameList = playerNameList;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void addPlayer(String playerName) {
-        this.playerNameList.add(playerName);
+    public void setCandidateList(List<String> candidateList) {
+        this.candidateList = candidateList;
+    }
+
+    public void addCandidate(String playerName) {
+        this.candidateList.add(playerName);
     }
 
     public void setVote(boolean vote) {
@@ -42,5 +47,9 @@ public class MissionEnableVoteData {
 
     public void setRoom(String room) {
         this.room = room;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 }
