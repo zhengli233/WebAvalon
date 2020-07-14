@@ -26,12 +26,19 @@
         </template>
       </van-nav-bar>
       <van-notice-bar :text="'欢迎，' + name" color="#1989fa" background="#ecf9ff" left-icon="info-o"></van-notice-bar>
+      <van-divider>本局玩家</van-divider>
       <van-grid class="personInfo" :column-num="2" gutter="5">
         <van-grid-item :class="name === item ? 'self' : ''" v-for="(item, index) in playList" :key="index">
           <van-tag mark :type="name === item ? 'primary' : 'default'">{{index + 1}}</van-tag>
           <div>{{item}}</div>
         </van-grid-item>
       </van-grid>
+      <div v-if="roleList.length > 0">
+        <van-divider>本局角色</van-divider>
+        <div class="roleList">
+          <van-tag size="medium" v-for="(item, index) in roleList" :key="index" class="roleItem">{{item}}</van-tag>
+        </div>
+      </div>
       <div style="margin: 16px;">
         <van-button round block type="info" @click="start()" :disabled="playList.length < 5">开始</van-button>
       </div>
@@ -56,7 +63,13 @@ export default {
       subSingleRoom: '', // 当前房间信息的订阅id，用于退订时识别
       subRule: '', // 当前房间规则的订阅id，用于退订时识别
       roomList: [], // 房间列表
-      playList: [] // 当前房间内玩家列表
+      playList: [], // 当前房间内玩家列表
+      roleList: [], // 当前房间内角色列表
+      subStart: '',
+      subRole: '',
+      subCandidates: '',
+      subVote: '',
+      subResult: ''
     }
   },
   methods: {
@@ -71,7 +84,8 @@ export default {
       if (players.indexOf(this.name) === -1) {
         this.$store.dispatch('asynSetRoom', room)
         this.subscribeSingleRoom()
-        this.$store.state.wsRoom.send('/app/host/enterRoom', {}, JSON.stringify({'room': room, 'playerNames': [this.name]}))
+        this.subscribeSingleGame()
+        this.$store.state.wsRoom.send('/app/host/enterRoom', {}, JSON.stringify({'room': room, 'playerNames': [this.name]})) // 加入房间
       } else {
         Dialog.confirm({
           message: '该房间中已有与您的名字相同玩家，请重新创建名字或加入其它房间',
@@ -84,16 +98,28 @@ export default {
     },
     // 开始游戏
     start () {
+      this.$store.state.wsRoom.send('/app/rule/setRoles/' + this.$store.getters.getRoom, {}, JSON.stringify({})) // 分配角色
     },
     // 离开房间
     leave () {
       this.$store.dispatch('asynSetStatus', '0')
-      this.$store.state.wsRoom.send('/app/host/leaveRoom/' + this.$store.getters.getRoom, {}, JSON.stringify({'name': this.name}))
+      this.$store.state.wsRoom.send('/app/host/leaveRoom/' + this.$store.getters.getRoom, {}, JSON.stringify({'name': this.name})) // 离开房间
       this.$store.dispatch('asynSetRoom', '')
       this.$store.state.wsRoom.unsubscribe(this.subSingleRoom)
       this.subSingleRoom = ''
       this.$store.state.wsRoom.unsubscribe(this.subRule)
       this.subRule = ''
+
+      this.$store.state.wsRoom.unsubscribe(this.subStart)
+      this.subStart = ''
+      this.$store.state.wsRoom.unsubscribe(this.subRole)
+      this.subRole = ''
+      this.$store.state.wsRoom.unsubscribe(this.subCandidates)
+      this.subCandidates = ''
+      this.$store.state.wsRoom.unsubscribe(this.subVote)
+      this.subVote = ''
+      this.$store.state.wsRoom.unsubscribe(this.subResult)
+      this.subResult = ''
     },
     // 连接
     connection () {
@@ -119,6 +145,7 @@ export default {
           this.subscribeEnterStatus()
           if (this.$store.getters.getRoom !== '') {
             this.subscribeSingleRoom()
+            this.subscribeSingleGame()
           }
         },
         err => {
@@ -132,18 +159,18 @@ export default {
     },
     // 订阅
     subscribe () {
-      this.$store.state.wsRoom.subscribe('/topic/allRoomsInfo', msg => {
+      this.$store.state.wsRoom.subscribe('/topic/allRoomsInfo', msg => { // 所有房间信息
         let message = JSON.parse(msg.body)
         this.roomList = message
         if (this.$store.getters.getRoom !== '' && this.playList.length === 0) {
           this.playList = message.find(item => item.room === this.$store.getters.getRoom).playerNames
-          this.$store.state.wsRoom.send('/app/rule/getRule/' + this.$store.getters.getRoom, {}, JSON.stringify({}))
+          this.$store.state.wsRoom.send('/app/rule/getRule/' + this.$store.getters.getRoom, {}, JSON.stringify({})) // 房间中有哪些角色
         }
       })
-      this.$store.state.wsRoom.send('/app/host/getAllRooms', {}, JSON.stringify({}))
+      this.$store.state.wsRoom.send('/app/host/getAllRooms', {}, JSON.stringify({})) // 获取所有房间信息
     },
     subscribeEnterStatus () {
-      this.$store.state.wsRoom.subscribe('/user/topic/enterRoomStatus', msg => {
+      this.$store.state.wsRoom.subscribe('/user/topic/enterRoomStatus', msg => { // 进入状态：是否已经加入了房间，用于关闭页面后重连
         let message = JSON.parse(msg.body)
         if (message) {
           this.$store.dispatch('asynSetStatus', '1')
@@ -153,6 +180,17 @@ export default {
           this.subSingleRoom = ''
           this.$store.state.wsRoom.unsubscribe(this.subRule)
           this.subRule = ''
+
+          this.$store.state.wsRoom.unsubscribe(this.subStart)
+          this.subStart = ''
+          this.$store.state.wsRoom.unsubscribe(this.subRole)
+          this.subRole = ''
+          this.$store.state.wsRoom.unsubscribe(this.subCandidates)
+          this.subCandidates = ''
+          this.$store.state.wsRoom.unsubscribe(this.subVote)
+          this.subVote = ''
+          this.$store.state.wsRoom.unsubscribe(this.subResult)
+          this.subResult = ''
           Toast.fail({
             message: '加入失败'
           })
@@ -160,7 +198,7 @@ export default {
       })
     },
     subscribeSingleRoom () {
-      this.$store.state.wsRoom.subscribe('/topic/roomInfo/' + this.$store.getters.getRoom, msg => {
+      this.$store.state.wsRoom.subscribe('/topic/roomInfo/' + this.$store.getters.getRoom, msg => { // 单个房间信息
         this.subSingleRoom = msg.headers.subscription
         let message = JSON.parse(msg.body)
         this.playList = message.playerNames
@@ -168,7 +206,31 @@ export default {
       })
       this.$store.state.wsRoom.subscribe('/topic/rule/' + this.$store.getters.getRoom, msg => {
         this.subRule = msg.headers.subscription
-        // let message = JSON.parse(msg.body)
+        let message = JSON.parse(msg.body)
+        if (message !== null) {
+          this.roleList = message.roles
+        }
+      })
+    },
+    subscribeSingleGame () {
+      this.$store.state.wsRoom.subscribe('/topic/setRoles/' + this.$store.getters.getRoom, msg => { // 是否已经分配角色
+        this.subStart = msg.headers.subscription
+        let message = JSON.parse(msg.body)
+        if (message) {
+          this.$store.state.wsRoom.send('/app/rule/getPlayerInfo/' + this.$store.getters.getRoom + '/' + this.name, {}, JSON.stringify({})) // 获取自己的身份
+        }
+      })
+      this.$store.state.wsRoom.subscribe('/user/topic/playerInfo', msg => { // 自己和其他能被自己获知身份的玩家的身份
+        this.subRole = msg.headers.subscription
+      })
+      this.$store.state.wsRoom.subscribe('/topic/candidateList/' + this.$store.getters.getRoom, msg => { // 选择做任务玩家
+        this.subCandidates = msg.headers.subscription
+      })
+      this.$store.state.wsRoom.subscribe('/topic/missionEnableVoteResult/' + this.$store.getters.getRoom, msg => { // 做任务玩家人选投票
+        this.subVote = msg.headers.subscription
+      })
+      this.$store.state.wsRoom.subscribe('/topic/missionSuccessVoteResult/' + this.$store.getters.getRoom, msg => { // 任务成败投票
+        this.subResult = msg.headers.subscription
       })
     },
     // 断开连接

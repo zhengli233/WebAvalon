@@ -32,3 +32,9 @@
 .personInfo .self .van-grid-item__content {
   background: rgb(236, 249, 255);
 }
+.roleList {
+  margin: 0 10px;
+}
+.roleList .roleItem {
+  margin: 0 5px;
+}
